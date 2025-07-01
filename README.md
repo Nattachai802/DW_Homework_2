@@ -1,6 +1,7 @@
 # DW_Homework_2
 
-นาย ณัฏฐชัย สีใส 65114540170
+# นาย ณัฏฐชัย สีใส 65114540170
+
 ระบบนี้ใช้ Django + clickhouse เพื่อที่จะท่ำการตรวจสอบว่า มีข้อมูลใน table event เท่าไหร่แบบ realtime ('SELECT count() FROM events') โดยใช้งาน websocket
 
 อัปเดตจำนวน event แบบ real-time ผ่าน WebSocket และ แสดงผลด้วยการใช้งานร่วมกับ Alpine.JS
