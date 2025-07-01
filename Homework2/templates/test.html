@@ -1,0 +1,19 @@
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="https://unpkg.com/htmx.org@1.9.2"></script>
+
+
+<div
+  x-data="{ count: 0 }"
+  x-init="(() => {
+    const ws = new WebSocket('ws://' + window.location.host + '/ws/events/');
+    ws.onopen = () => {
+      ws.send('fetch'); // 🔸 ส่งข้อความไป trigger backend
+    };
+    ws.onmessage = event => {
+      const data = JSON.parse(event.data);
+      count = data.count ?? 0;
+    };
+  })()"
+>
+  <p>จำนวนเหตุการณ์ล่าสุด: <span x-text="count">0</span></p>
+</div>
