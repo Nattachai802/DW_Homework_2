@@ -8,6 +8,7 @@
 ในระบบนี้ใช้ clickhouse ที่ทำการติดตั้งบน wsl โดยใช้ port 8123 
 
 ก่อนจะทำการรันต้องใช้คำสั่ง
+
 ./clickhouse server
 
 ./clickhouse client (เมื่อต้องการทำการเพิ่มข้อมูล)
