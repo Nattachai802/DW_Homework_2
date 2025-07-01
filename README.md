@@ -16,4 +16,6 @@
 
 ### 1. ติดตั้ง Dependencies
 
+cd homework2
+
 pip install -r requirements.txt
