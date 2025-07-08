@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Taxi Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6; /* สีพื้นหลังอ่อนๆ */
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50; /* สีกรมท่าเข้ม */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* เงาให้ดูมีมิติ */
+            background-color: #ffffff; /* พื้นหลังตารางสีขาว */
+            border-radius: 8px; /* มุมโค้งมน */
+            overflow: hidden; /* ซ่อนส่วนที่เกินขอบ */
+        }
+
+        table thead tr {
+            background-color: #34495e; /* สีหัวตารางเข้ม */
+            color: #ffffff; /* ตัวหนังสือสีขาว */
+            text-align: left;
+            font-weight: bold;
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd; /* เส้นขอบตารางบางๆ */
+        }
+
+        table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3; /* สลับสีแถวเพื่อให้อ่านง่ายขึ้น */
+        }
+
+        table tbody tr:last-of-type {
+            border-bottom: 2px solid #34495e; /* เส้นขอบสุดท้ายหนาขึ้น */
+        }
+
+        table tbody tr:hover {
+            background-color: #e0f2f7; /* เปลี่ยนสีเมื่อเมาส์ชี้ */
+            cursor: pointer;
+        }
+
+        /* Responsive design for smaller screens */
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            table tr {
+                margin-bottom: 15px;
+                border: 1px solid #dddddd;
+                border-radius: 8px;
+            }
+
+            table td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+
+            table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #555;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>NYC Taxi Trips Overview</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pickup Date/Time</th>
+                <th>Dropoff Date/Time</th>
+                <th>Passengers</th>
+                <th>Distance (Miles)</th>
+                <th>Fare ($)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in data %}
+                <tr>
+                    <td data-label="ID">{{ trip.id }}</td>
+                    <td data-label="Pickup Date/Time">{{ trip.pickup_datetime }}</td>
+                    <td data-label="Dropoff Date/Time">{{ trip.dropoff_datetime }}</td>
+                    <td data-label="Passengers">{{ trip.passenger_count }}</td>
+                    <td data-label="Distance (Miles)">{{ trip.trip_distance|floatformat:2 }}</td>
+                    <td data-label="Fare ($)">{{ trip.fare_amount|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

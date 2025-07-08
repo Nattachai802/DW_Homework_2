@@ -18,8 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
+from .views import hw04_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', TemplateView.as_view(template_name='test.html')),
+    path('hw04/', hw04_view, name='hw04'),
 ]

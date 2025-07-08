@@ -7,7 +7,7 @@ class EventConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def receive(self, text_data):
-        client = get_client(host='localhost',port=8123 ,database='default')
+        client = get_client(host='localhost',port=8123 ,database='nyc_taxi')
         result = client.query('SELECT count() FROM events')
         print("จำนวน event:", result)
         await self.send(text_data=json.dumps({'count': result.result_rows[0][0]}))
