@@ -1,0 +1,4 @@
+daphne
+django
+clickhouse-connect
+channel
