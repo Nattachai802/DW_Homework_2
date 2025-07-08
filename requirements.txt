@@ -1,0 +1,6 @@
+daphne
+django
+clickhouse-connect
+channels
+datasets
+clickhouse-driver
