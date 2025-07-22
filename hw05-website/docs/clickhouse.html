@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการติดตั้ง ClickHouse บน WSL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+         * CSS Variables: กำหนดค่าสีหลักและฟอนต์
+         */
+        :root {
+            --primary-color: #0d6efd;
+            --heading-color: #0a58ca;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+        }
+
+        /*
+         * Base Styles: กำหนดสไตล์พื้นฐาน
+         * ใช้ฟอนต์ Sarabun สำหรับภาษาไทยเพื่อความสวยงาม
+         */
+        body {
+            font-family: 'Sarabun', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        /*
+         * Section Container: กล่องเนื้อหาหลัก
+         */
+        section {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px 40px;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        /*
+         * Headings: หัวข้อหลัก (H2) และหัวข้อย่อย (H3)
+         */
+        h2 {
+            font-size: 2rem;
+            color: var(--heading-color);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            padding-left: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /*
+         * Code Blocks: บล็อกสำหรับแสดงโค้ด
+         */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            font-family: 'Fira Code', 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        /*
+         * Unordered List: รายการแบบไม่มีลำดับ
+         * ใช้ไอคอนแทน bullet point ปกติ
+         */
+        ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+        }
+
+        ul li::before {
+            content: '🔹'; /* ไอคอนรูปข้าวหลามตัดสีน้ำเงิน */
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        /*
+         * Paragraphs & Strong Text
+         */
+        p {
+            margin-bottom: 1.2em;
+        }
+        
+        strong {
+            color: var(--heading-color);
+        }
+
+    </style>
+</head>
+<body>
+
+<section>
+    <h2>⚙️ การติดตั้ง ClickHouse บน WSL</h2>
+    <p>
+        เพื่อให้สามารถจัดการกับข้อมูลขนาดใหญ่ในระบบ Data Warehouse ได้อย่างมีประสิทธิภาพ 
+        เราได้เลือกใช้ <strong>ClickHouse</strong> ซึ่งเป็น Column-oriented Database ที่มีความเร็วสูง 
+        โดยในที่นี้จะอธิบายวิธีการติดตั้งบนระบบ <strong>WSL (Ubuntu)</strong> อย่างละเอียด
+    </p>
+
+    <h3>ขั้นตอนที่ 1: อัปเดตแพ็กเกจในระบบ</h3>
+    <p>เริ่มต้นด้วยการอัปเดตรายการแพ็กเกจและอัปเกรดซอฟต์แวร์ทั้งหมดให้เป็นเวอร์ชันล่าสุด</p>
+    <pre>sudo apt update
+sudo apt upgrade -y</pre>
+
+    <h3>ขั้นตอนที่ 2: ติดตั้ง ClickHouse</h3>
+    <p>ใช้สคริปต์ทางการจาก ClickHouse เพื่อทำการติดตั้งโดยอัตโนมัติ คำสั่งนี้จะดาวน์โหลดและรันสคริปต์ติดตั้งให้ทันที</p>
+    <pre>curl https://clickhouse.com/ | sh</pre>
+
+    <h3>ขั้นตอนที่ 3: เริ่มต้นใช้งาน ClickHouse</h3>
+    <p>หลังติดตั้งเสร็จเรียบร้อย สามารถเริ่มเซิร์ฟเวอร์ในพื้นหลัง และเชื่อมต่อผ่าน client ได้ด้วยคำสั่งต่อไปนี้</p>
+    <pre># เริ่ม server (แนะนำให้รันใน terminal แยก)
+sudo /etc/init.d/clickhouse-server start
+
+# เปิด client เพื่อสั่งงานฐานข้อมูล
+clickhouse-client</pre>
+
+    <h3>🌐 พอร์ตที่ใช้งาน</h3>
+    <ul>
+        <li><strong>9000</strong> – สำหรับ native client (เช่น <code>clickhouse-client</code>, ไดรเวอร์ต่างๆ)</li>
+        <li><strong>8123</strong> – สำหรับ HTTP interface (ใช้กับ REST API หรือ Web UI)</li>
+    </ul>
+
+    <h3>📁 ไฟล์และโฟลเดอร์ที่สำคัญ</h3>
+    <ul>
+        <li><code>/etc/clickhouse-server/config.xml</code> – ไฟล์ตั้งค่าหลักของเซิร์ฟเวอร์</li>
+        <li><code>/var/lib/clickhouse/</code> – โฟลเดอร์สำหรับจัดเก็บข้อมูลทั้งหมด</li>
+    </ul>
+    
+</section>
+
+</body>
+</html>

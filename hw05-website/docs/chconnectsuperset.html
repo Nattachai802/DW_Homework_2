@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการเชื่อมต่อ ClickHouse กับ Apache Superset</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Inter:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff; /* Professional Blue */
+            --heading-color: #0056b3;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --info-bg: #e7f3ff;
+            --info-border: #90caff;
+        }
+        body {
+            font-family: 'Sarabun', 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px 40px;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+        h2, h3 {
+            font-weight: 700;
+        }
+        h2 {
+            font-size: 2rem;
+            color: var(--heading-color);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            font-family: 'Fira Code', 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin: 1em 0;
+        }
+        code {
+            background-color: #e9ecef;
+            color: #d63384;
+            padding: 0.2em 0.4em;
+            margin: 0 2px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 25px;
+        }
+        .step-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            margin-top: 2px;
+        }
+        .step-content {
+            flex: 1;
+        }
+        .info-box {
+            background-color: var(--info-bg);
+            border-left: 5px solid var(--info-border);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+        }
+        .info-box h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        .final-step {
+            text-align: center;
+            padding: 20px;
+            background-color: #e6ffed;
+            border: 1px solid #b7e9c7;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d6a4f;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <h2>🧭 ขั้นตอนการเชื่อมต่อ ClickHouse กับ Superset</h2>
+    <p>คู่มือนี้จะแนะนำการเชื่อมต่อฐานข้อมูล <strong>ClickHouse</strong> ที่รันบน WSL เข้ากับ <strong>Apache Superset</strong> เพื่อสร้าง Dataset สำหรับการวิเคราะห์ข้อมูล</p>
+
+    <h3>✅ 1. ตรวจสอบว่า Services ทำงานอยู่</h3>
+    <p>ก่อนเริ่มการเชื่อมต่อ ตรวจสอบให้แน่ใจว่าทั้ง Apache Superset และ ClickHouse Server กำลังทำงานอยู่</p>
+    <ul>
+        <li><strong>Apache Superset</strong> ควรทำงานอยู่ที่ <code>http://127.0.0.1:8088</code></li>
+        <li><strong>ClickHouse Server</strong> ควรทำงานและตอบสนองที่พอร์ต <code>8123</code></li>
+    </ul>
+    <pre># ทดสอบ ClickHouse HTTP Port
+curl http://127.0.0.1:8123</pre>
+    <p>หากถูกต้อง ควรได้รับข้อความตอบกลับว่า <code>Ok.</code></p>
+
+    <h3>✅ 2. เริ่มสร้างการเชื่อมต่อฐานข้อมูลใหม่</h3>
+    <div class="step">
+        <div class="step-icon">👉</div>
+        <div class="step-content">
+            <p>ที่หน้า Dashboard ของ Superset ไปที่เมนู <strong>Data</strong> > <strong>Databases</strong></p>
+        </div>
+    </div>
+    <div class="step">
+        <div class="step-icon">👉</div>
+        <div class="step-content">
+            <p>คลิกปุ่มสีเขียว <strong>[ + DATABASE ]</strong> ที่มุมขวาบน</p>
+        </div>
+    </div>
+
+    <h3>✅ 3. กรอกข้อมูลการเชื่อมต่อ</h3>
+    <p>ในหน้า <strong>Connect a database</strong> ให้กรอกข้อมูลดังนี้:</p>
+    <ul>
+        <li><strong>DATABASE NAME:</strong> ตั้งชื่อที่สื่อความหมาย เช่น <code>ClickHouse_Local_WSL</code></li>
+        <li><strong>SQLALCHEMY URI:</strong> กรอกค่าสำหรับเชื่อมต่อ</li>
+    </ul>
+
+    <div class="info-box">
+        <h4>📌 SQLAlchemy URI สำหรับ ClickHouse</h4>
+        <p>นี่คือส่วนที่สำคัญที่สุด ใช้รูปแบบด้านล่างนี้เพื่อเชื่อมต่อ:</p>
+        <pre>clickhouse+http://default:@localhost:8123/default</pre>
+        <p><strong>คำอธิบายส่วนต่างๆ:</strong></p>
+        <ul>
+            <li><code>clickhouse+http</code>: ระบุว่าเป็นการเชื่อมต่อ ClickHouse ผ่านโปรโตคอล HTTP</li>
+            <li><code>default:@</code>: คือ <code>username:password</code> ซึ่งในที่นี้คือ username <strong>default</strong> และไม่มี password</li>
+            <li><code>localhost:8123</code>: คือที่อยู่และพอร์ตของ ClickHouse server</li>
+            <li><code>/default</code>: คือชื่อฐานข้อมูลที่ต้องการเชื่อมต่อ (สามารถเปลี่ยนเป็นชื่ออื่นได้หากคุณสร้างไว้)</li>
+        </ul>
+    </div>
+    <p>จากนั้น คลิกปุ่ม <strong>[ TEST CONNECTION ]</strong> หากขึ้นว่า "Seems OK!" ให้กดปุ่ม <strong>[ CONNECT ]</strong></p>
+
+    <h3>✅ 4. เพิ่ม Dataset จากตาราง</h3>
+    <p>หลังจากเพิ่ม Database สำเร็จแล้ว ให้ไปที่ <strong>Data</strong> > <strong>Datasets</strong> แล้วคลิกปุ่ม <strong>[ + DATASET ]</strong></p>
+    <ul>
+        <li><strong>DATABASE:</strong> เลือก Database ที่คุณสร้างในขั้นตอนที่แล้ว (<code>ClickHouse_Local_WSL</code>)</li>
+        <li><strong>SCHEMA:</strong> เลือก Schema (ปกติจะเป็น <code>default</code>)</li>
+    </ul>
+    <p>เมื่อเลือกครบแล้ว ให้กดปุ่ม <strong>[ ADD ]</strong></p>
+
+    <div class="final-step">
+        🎉 สำเร็จ! คุณสามารถเริ่มใช้งาน Dataset ใหม่ใน Chart และ Dashboard ได้ทันที
+    </div>
+</main>
+
+</body>
+</html>

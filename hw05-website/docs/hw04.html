@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NYC Taxi Trips Dashboard</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f6f9;
+        color: #333;
+      }
+
+      header {
+        background-color: #004080;
+        color: white;
+        padding: 20px 40px;
+        text-align: center;
+      }
+
+      main {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2 {
+        color: #004080;
+      }
+
+      pre {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      footer {
+        text-align: center;
+        font-size: 0.85em;
+        color: #888;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>NYC Taxi Trips Dashboard</h1>
+      <p>โดย นาย ณัฏฐชัย สีใส - 65114540170</p>
+    </header>
+
+    <main>
+      <h2>📁 ข้อมูลที่ใช้</h2>
+      <p>
+        โครงการนี้ใช้ข้อมูลจาก NYC Taxi Trips Overview แทนชุดข้อมูล Click Logs
+        ของ Criteo ซึ่งไม่มีลิงก์ดาวน์โหลดโดยตรง
+      </p>
+
+      <h2>⚙️ ขั้นตอนการเตรียมระบบ</h2>
+      <ol>
+        <li>ติดตั้ง ClickHouse และ Django</li>
+        <li>
+          เตรียม Virtual Environment และติดตั้ง dependencies ด้วยคำสั่ง:
+          <pre>
+cd homework2
+pip install -r requirements.txt</pre
+          >
+        </li>
+      </ol>
+
+      <h2>💾 การสร้างฐานข้อมูลและนำเข้าข้อมูล</h2>
+      <p>เข้าสู่ระบบ ClickHouse ด้วยคำสั่ง:</p>
+      <pre>./clickhouse client</pre>
+
+      <p>สร้างตาราง (ตัวอย่าง)</p>
+      <pre>
+CREATE TABLE nyc_taxi (
+    pickup_datetime DateTime,
+    dropoff_datetime DateTime,
+    passenger_count UInt8,
+    trip_distance Float32,
+    payment_type String,
+    total_amount Float32
+) ENGINE = MergeTree()
+ORDER BY pickup_datetime;</pre
+      >
+
+      <p>นำเข้าข้อมูลจาก S3:</p>
+      <pre>
+INSERT INTO nyc_taxi
+FROM s3(
+  'https://datasets-documentation.s3.eu-west-3.amazonaws.com/nyc-taxi/trips_{0..2}.gz',
+  'TabSeparatedWithNames'
+);</pre
+      >
+
+      <h2>🚀 การเปิดใช้งาน ClickHouse Server</h2>
+      <p>ใช้คำสั่ง:</p>
+      <pre>./clickhouse server</pre>
+
+      <h2>🔗 การเชื่อมต่อกับ Django (views.py)</h2>
+      <p>
+        สร้างไฟล์ <code>views.py</code> เพื่อเชื่อมต่อกับ ClickHouse
+        และดึงข้อมูลมาแสดงผลในเทมเพลต:
+      </p>
+      <pre>
+def hw04_view(request):
+    client = Client(host='localhost', port='9000', database='nyc_taxi')  # เชื่อมต่อกับ ClickHouse
+    query = "SELECT trip_id, pickup_datetime, dropoff_datetime, passenger_count, trip_distance, fare_amount FROM trips_small LIMIT 20"
+    
+    # รัน query และดึงข้อมูล
+    result = client.execute(query)
+    
+    # แปลงผลลัพธ์เป็น dictionary สำหรับส่งไปยัง JsonResponse
+    data = []
+    for row in result:
+        data.append({
+            "id": row[0],
+            "pickup_datetime": row[1],
+            "dropoff_datetime": row[2],
+            "passenger_count": row[3],
+            "trip_distance": row[4],
+            "fare_amount": row[5]
+        })
+    
+    return render(request, 'ny_taxi_template.html', {'data': data})</pre
+      >
+
+      <h2>🌐 การแสดงผลด้วย Django</h2>
+      <p>เริ่มต้น Django Server:</p>
+      <pre>python manage.py runserver</pre>
+      <p>
+        เปิดเว็บเบราว์เซอร์ไปที่
+        <code>http://127.0.0.1:8000</code> เพื่อดูข้อมูล
+      </p>
+
+      <h2>📊 ตัวอย่างข้อมูล NYC Taxi Trips (100 รายการแรก)</h2>
+      <p>(สามารถใช้ Django Template Loop แสดงในตารางได้)</p>
+    </main>
+
+    <footer>
+      <p>สิ้นสุดการบ้าน | DW Homework 4</p>
+    </footer>
+  </body>
+</html>

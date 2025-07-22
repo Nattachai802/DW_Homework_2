@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Superset Dashboard Presentation</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.8;
+      max-width: 850px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    h1 {
+      color: #1a73e8;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 22px;
+      color: #444;
+      margin-top: 30px;
+      border-left: 4px solid #1a73e8;
+      padding-left: 10px;
+    }
+    .step {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-left: 5px solid #1a73e8;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .step-title {
+      font-weight: bold;
+      font-size: 18px;
+      color: #1a73e8;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .highlight {
+      background-color: #e8f0fe;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .tip {
+      background-color: #fff9c4;
+      padding: 10px;
+      border-left: 5px solid #fbc02d;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧭 ขั้นตอนการนำเสนอข้อมูลบน Dashboard ด้วย Superset</h1>
+
+<div class="step">
+  <div class="step-title">✅ 1. เลือกเมนู Dashboards และคลิกปุ่ม [+ Dashboard]</div>
+  <ul>
+    <li>จากหน้าเมนูหลักของ Superset (แถบด้านซ้ายมือ)</li>
+    <li>เลือก <span class="highlight">Dashboards</span></li>
+    <li>คลิกปุ่ม <span class="highlight">[ + Dashboard ]</span> ที่มุมขวาบน</li>
+    <li>ตั้งชื่อ Dashboard เช่น <span class="highlight">Sales Analysis</span> หรือ <span class="highlight">Website Analytics</span></li>
+    <li>กด <span class="highlight">[ Save ]</span></li>
+  </ul>
+  <div class="tip">💡 <strong>Dashboard</strong> คือพื้นที่รวบรวมกราฟ (Charts) และข้อมูลสรุปจากหลายแหล่ง เพื่อแสดงผลรวมกันในหน้าเดียว</div>
+</div>
+
+<div class="step">
+  <div class="step-title">✅ 2. คลิกปุ่ม [+ Create new chart]</div>
+  <ul>
+    <li>เข้า Dashboard หรือเมนู <span class="highlight">Charts</span> จากแถบด้านซ้าย</li>
+    <li>กดปุ่ม <span class="highlight">[ + Chart ]</span> เพื่อสร้าง Chart ใหม่</li>
+  </ul>
+</div>
+
+<div class="step">
+  <div class="step-title">✅ 3. เลือก Dataset และประเภทของ Chart</div>
+  <ul>
+    <li>เลือก <strong>Dataset</strong> ที่ต้องการ เช่น <span class="highlight">sales_data</span></li>
+    <li>เลือก Visualization Type:
+      <ul>
+        <li>📊 Bar Chart – เปรียบเทียบข้อมูลแบบแท่ง</li>
+        <li>📈 Time Series – แนวโน้มตามเวลา</li>
+        <li>🥧 Pie Chart – สัดส่วน</li>
+        <li>📌 Table – ข้อมูลแบบตาราง</li>
+      </ul>
+    </li>
+    <li>คลิก <span class="highlight">[ Create new chart ]</span></li>
+  </ul>
+</div>
+
+<div class="step">
+  <div class="step-title">✅ 4. ปรับการตั้งค่ากราฟ และแสดงผล</div>
+  <ul>
+    <li>กำหนด Metrics เช่น <span class="highlight">SUM(quantity * price)</span></li>
+    <li>เลือก Time Column เช่น <span class="highlight">sale_date</span></li>
+    <li>ตั้ง Time Grain เช่น <span class="highlight">day</span> หรือ <span class="highlight">month</span></li>
+    <li>กำหนด Group By เช่น <span class="highlight">product_name</span></li>
+    <li>คลิก <span class="highlight">[ Run ]</span> เพื่อดูผลลัพธ์</li>
+  </ul>
+</div>
+
+<div class="step">
+  <div class="step-title">✅ 5. บันทึกกราฟลงใน Dashboard</div>
+  <ul>
+    <li>คลิก <span class="highlight">[ Save ]</span></li>
+    <li>เลือก Add to existing dashboard → <span class="highlight">Sales Analysis</span></li>
+    <li>หรือ Create new dashboard หากยังไม่มี</li>
+    <li>คลิก <span class="highlight">[ Save & Go to Dashboard ]</span></li>
+  </ul>
+</div>
+
+<div class="step">
+  <div class="step-title">📊 6. ผลลัพธ์ที่ได้ใน Dashboard</div>
+  <ul>
+    <li>กราฟที่สร้างจะปรากฏใน Dashboard ทันที</li>
+    <li>สามารถลาก ปรับขนาด หรือจัดเรียงใหม่ได้</li>
+    <li>ข้อมูลเชื่อมกับฐานข้อมูลจริง และสามารถ refresh ได้แบบ real-time</li>
+  </ul>
+  <div><strong>ตัวอย่างภาพผลลัพธ์:</strong></div>
+  <img src="\image\example.png" alt="Dashboard Example">
+</div>
+
+</body>
+</html>

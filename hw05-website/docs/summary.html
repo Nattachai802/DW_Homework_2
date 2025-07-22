@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทสรุปการใช้งาน Apache Superset และ ClickHouse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #28a745; /* Success Green */
+            --heading-color: #218838;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --highlight-bg: #e2f5e6;
+        }
+        body {
+            font-family: 'Sarabun', -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px 40px;
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid var(--primary-color);
+        }
+        h2 {
+            font-size: 2rem;
+            color: var(--heading-color);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        h3 {
+            font-size: 1.5rem;
+            color: var(--heading-color);
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        p {
+            font-size: 1.1rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            color: #495057;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        ul li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        .summary-box {
+            background-color: var(--highlight-bg);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        .summary-box ul li::before {
+            content: '🔹';
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <h2>สรุปการใช้งาน Apache Superset + ClickHouse</h2>
+    <p>
+        Apache Superset เป็นเครื่องมือ BI ที่ทรงพลังในการเชื่อมต่อ วิเคราะห์ และนำเสนอข้อมูลได้อย่างง่ายดาย โดยเฉพาะเมื่อใช้งานร่วมกับ ClickHouse ที่มีความเร็วในการประมวลผลคิวรีสูงมาก
+    </p>
+
+    <h3>✨ จุดเด่นสำคัญจากโปรเจกต์นี้</h3>
+    <ul>
+        <li>เชื่อมต่อกับ ClickHouse ได้อย่างราบรื่นผ่าน SQLAlchemy URI</li>
+        <li>สร้าง Dataset จากตารางข้อมูลได้โดยตรง ไม่ต้องเขียนโค้ด SQL ที่ซับซ้อน</li>
+        <li>สร้างกราฟและ Dashboard แบบ Interactive ได้ง่ายและรวดเร็ว</li>
+        <li>รองรับการวิเคราะห์ข้อมูลขนาดใหญ่ได้อย่างมีประสิทธิภาพด้วยความเร็วจาก ClickHouse</li>
+        <li>แชร์ Dashboard ให้ทีมผ่าน Web UI ได้สะดวก โดยไม่ต้องเขียนโค้ดเพิ่มเติม</li>
+    </ul>
+
+    <div class="summary-box">
+        <h3>📌 สรุปหัวใจหลัก</h3>
+        <p>การนำ Apache Superset มาใช้ร่วมกับ ClickHouse ช่วยให้คุณ:</p>
+        <ul>
+            <li><strong>เชื่อมต่อฐานข้อมูลได้ง่าย:</strong> ลดขั้นตอนทางเทคนิคที่ซับซ้อน</li>
+            <li><strong>สื่อสารข้อมูลได้รวดเร็ว:</strong> แปลงข้อมูลดิบให้เป็น Visualization ที่เข้าใจง่าย</li>
+            <li><strong>สร้าง Dashboard โดยไม่ต้องเขียนโค้ด:</strong> เปิดโอกาสให้ทุกคนในทีมสร้างรายงานได้</li>
+            <li><strong>รองรับข้อมูลระดับ Production:</strong> วิเคราะห์ข้อมูลขนาดใหญ่ได้อย่างมั่นใจและมีประสิทธิภาพ</li>
+        </ul>
+    </div>
+</main>
+
+</body>
+</html>
